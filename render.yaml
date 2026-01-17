@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: ramper-ai-painter
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: streamlit run app.py
+    envVars:
+      - key: PORT
+        value: 8501
