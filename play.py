@@ -692,12 +692,12 @@ class RamperVirtualPainter:
 
     def save_canvas(self):
         if self.app_mode == "PAINTER":
-            fname = datetime.now().strftime("ramper_painting_%Y%m%d_%H%M%S.png")
+            fname = datetime.now().strftime("FunDraw_painting_%Y%m%d_%H%M%S.png")
         else:
-            fname = datetime.now().strftime("ramper_chemistry_%Y%m%d_%H%M%S.png")
+            fname = datetime.now().strftime("FunDraw_chemistry_%Y%m%d_%H%M%S.png")
         save_path = os.path.join(self.save_dir, fname)
         cv2.imwrite(save_path, self.canvas)
-        print(f"[RAMPER] Saved {self.app_mode.lower()} to {save_path}")
+        print(f"[FunDraw_ChemLab] Saved {self.app_mode.lower()} to {save_path}")
 
     def process_frame(self, frame):
         # Process external commands
@@ -840,7 +840,7 @@ class RamperVirtualPainter:
             if current_time - self.last_draw_time > self.draw_timeout:
                 self.prev_x, self.prev_y = None, None
 
-    def handle_chemistry_gestures(self, fingers, current_time, frame, w, thumb_tip):
+    def handle_chemistry_gestures(self, current_time, frame, w, thumb_tip):
         # Chemical selection: two fingers up (index + middle)
         if fingers[1] == 1 and fingers[2] == 1 and not self.dragging_chemical:
             if current_time - self.last_mode_change > self.mode_debounce:
@@ -892,8 +892,7 @@ class RamperVirtualPainter:
                 if fingers[0] == 0 or fingers[1] == 0:  # Release pinch
                     if self.dragging_chemical not in self.beakers[beaker_idx]["chemicals"]:
                         self.beakers[beaker_idx]["chemicals"].append(self.dragging_chemical)
-                        self.check_chemical_reactions(beaker_idx)
-                        print(f"[RAMPER] Added {self.dragging_chemical} to Beaker {beaker_idx + 1}")
+                        print(f"[FunDraw_ChemLab] Added {self.dragging_chemical} to Beaker {beaker_idx + 1}")
                     self.dragging_chemical = None
 
             # Stop dragging if pinch released
@@ -961,7 +960,7 @@ class RamperVirtualPainter:
 
 
     def run(self):
-        print("🎨 RAMPER — AI Virtual Painter & Chemistry Lab (Press 'q' to quit)")
+        print("🎨 FunDraw_ChemLab — AI Virtual Painter & Chemistry Lab (Press 'q' to quit)")
         
         # Local execution only
         if self.cam_index is None:
@@ -972,8 +971,8 @@ class RamperVirtualPainter:
         cap.set(cv2.CAP_PROP_FRAME_HEIGHT, self.height)
         
         # Set window to fullscreen for better utilization
-        cv2.namedWindow("RAMPER - AI Virtual Painter & Chemistry Lab", cv2.WINDOW_NORMAL)
-        cv2.setWindowProperty("RAMPER - AI Virtual Painter & Chemistry Lab", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+        cv2.namedWindow("FunDraw_ChemLab - AI Virtual Painter & Chemistry Lab", cv2.WINDOW_NORMAL)
+        cv2.setWindowProperty("FunDraw_ChemLab - AI Virtual Painter & Chemistry Lab", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
         
         while True:
             success, frame = cap.read()
@@ -986,43 +985,43 @@ class RamperVirtualPainter:
             # So process_frame flipping it will mirror it (good for selfie view).
             processed_frame = self.process_frame(frame)
 
-            cv2.imshow("RAMPER - AI Virtual Painter & Chemistry Lab", processed_frame)
+            cv2.imshow("FunDraw_ChemLab - AI Virtual Painter & Chemistry Lab", processed_frame)
 
             # Key handling
             key = cv2.waitKey(1) & 0xFF
             if key == ord('q') or key == 27:  # 'q' or ESC to quit
                 break
             elif key == ord('f'):  # Toggle fullscreen
-                cv2.setWindowProperty("RAMPER - AI Virtual Painter & Chemistry Lab", 
+                cv2.setWindowProperty("FunDraw_ChemLab - AI Virtual Painter & Chemistry Lab", 
                                     cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_NORMAL)
             elif key == ord('c') and self.app_mode == "PAINTER":
                 self.canvas = np.zeros_like(self.canvas)
-                print("[RAMPER] Canvas cleared.")
+                print("[FunDraw_ChemLab] Canvas cleared.")
             elif key == ord('r') and self.app_mode == "CHEMISTRY":
                 # Reset chemistry lab
                 for beaker in self.beakers:
                     beaker["chemicals"] = []
                 self.chemistry_engine.active_reactions = []
                 self.canvas = np.zeros_like(self.canvas)
-                print("[RAMPER] Chemistry lab reset.")
+                print("[FunDraw_ChemLab] Chemistry lab reset.")
             elif key == ord('s'):
                 self.save_canvas()
             elif key == ord('l'):
                 # Toggle between modes
                 self.app_mode = "CHEMISTRY" if self.app_mode == "PAINTER" else "PAINTER"
                 self.canvas = np.zeros_like(self.canvas)
-                print(f"[RAMPER] Switched to {self.app_mode} mode.")
+                print(f"[FunDraw_ChemLab] Switched to {self.app_mode} mode.")
             elif key == ord('+') or key == ord('='):
                 if self.app_mode == "PAINTER":
                     self.brush_thickness = min(self.brush_thickness + 2, 60)
-                    print(f"[RAMPER] Brush thickness: {self.brush_thickness}")
+                    print(f"[FunDraw_ChemLab] Brush thickness: {self.brush_thickness}")
             elif key == ord('-') or key == ord('_'):
                 if self.app_mode == "PAINTER":
                     self.brush_thickness = max(self.brush_thickness - 2, 2)
-                    print(f"[RAMPER] Brush thickness: {self.brush_thickness}")
+                    print(f"[FunDraw_ChemLab] Brush thickness: {self.brush_thickness}")
             elif key == ord('e') and self.app_mode == "PAINTER":
                 self.is_eraser = not self.is_eraser
-                print("[RAMPER] Eraser:", self.is_eraser)
+                print("[FunDraw_ChemLab] Eraser:", self.is_eraser)
 
         cap.release()
         cv2.destroyAllWindows()

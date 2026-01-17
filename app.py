@@ -5,7 +5,7 @@ from streamlit_webrtc import webrtc_streamer, WebRtcMode, RTCConfiguration
 import numpy as np
 from play import RamperVirtualPainter
 
-st.set_page_config(page_title="Ramper AI Painter", layout="wide")
+st.set_page_config(page_title="FunDraw_ChemLab", layout="wide")
 
 import queue
 
@@ -44,7 +44,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-st.title("🎨 RAMPER Painter")
+st.title("🎨 FunDraw_ChemLab")
 
 if "command_queue" not in st.session_state:
     st.session_state["command_queue"] = queue.Queue()
