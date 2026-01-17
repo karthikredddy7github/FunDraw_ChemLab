@@ -50,8 +50,15 @@ if "command_queue" not in st.session_state:
     st.session_state["command_queue"] = queue.Queue()
 
 # RTC Configuration for Cloud (Render)
+# Using a list of public STUN servers to increase connectivity reliability
 RTC_CONFIGURATION = RTCConfiguration(
-    {"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]}
+    {"iceServers": [
+        {"urls": ["stun:stun.l.google.com:19302"]},
+        {"urls": ["stun:stun1.l.google.com:19302"]},
+        {"urls": ["stun:stun2.l.google.com:19302"]},
+        {"urls": ["stun:stun3.l.google.com:19302"]},
+        {"urls": ["stun:stun4.l.google.com:19302"]},
+    ]}
 )
 
 class VideoProcessor:
