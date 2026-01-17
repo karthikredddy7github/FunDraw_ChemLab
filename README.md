@@ -1,4 +1,4 @@
-# 🎨 RAMPER: AI Virtual Painter & Chemistry Lab
+# 🎨 FunDraw_ChemLab: AI Virtual Painter & Chemistry Lab
 
 [![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=Streamlit&logoColor=white)](https://streamlit.io/)
 [![OpenCV](https://img.shields.io/badge/OpenCV-5C3EE8?style=for-the-badge&logo=opencv&logoColor=white)](https://opencv.org/)
@@ -6,7 +6,7 @@
 [![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![Render](https://img.shields.io/badge/Render-46E3B7?style=for-the-badge&logo=render&logoColor=white)](https://render.com/)
 
-**RAMPER** is a futuristic, touchless interactive application that turns your webcam into a canvas and a science lab. Using advanced Computer Vision and Hand Tracking, it allows users to draw in mid-air and simulate chemical reactions without touching a keyboard or mouse.
+**FunDraw_ChemLab** is a futuristic, touchless interactive application that turns your webcam into a canvas and a science lab. Using advanced Computer Vision and Hand Tracking, it allows users to draw in mid-air and simulate chemical reactions without touching a keyboard or mouse.
 
 ---
 
@@ -40,8 +40,8 @@
 
 1.  **Clone the Repository**
     ```bash
-    git clone https://github.com/YOUR_USERNAME/ramper-test.git
-    cd ramper_test
+    git clone https://github.com/YOUR_USERNAME/FunDraw_ChemLab.git
+    cd FunDraw_ChemLab
     ```
 
 2.  **Install Dependencies**
@@ -80,7 +80,7 @@ python play.py
 ## 📦 Project Structure
 
 ```text
-ramper_test/
+FunDraw_ChemLab/
 ├── app.py              # Main entry point for the Streamlit Web App
 ├── play.py             # Core Logic: Hand tracking, drawing, and chemistry engine
 ├── render.yaml         # Configuration for auto-deployment to Render
