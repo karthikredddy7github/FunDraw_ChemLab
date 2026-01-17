@@ -50,16 +50,28 @@ if "command_queue" not in st.session_state:
     st.session_state["command_queue"] = queue.Queue()
 
 # RTC Configuration for Cloud (Render)
-# Using a list of public STUN servers to increase connectivity reliability
-RTC_CONFIGURATION = RTCConfiguration(
-    {"iceServers": [
-        {"urls": ["stun:stun.l.google.com:19302"]},
-        {"urls": ["stun:stun1.l.google.com:19302"]},
-        {"urls": ["stun:stun2.l.google.com:19302"]},
-        {"urls": ["stun:stun3.l.google.com:19302"]},
-        {"urls": ["stun:stun4.l.google.com:19302"]},
-    ]}
-)
+# RTC Configuration
+import os
+from twilio.rest import Client
+
+# Default STUN servers
+ice_servers = [
+    {"urls": ["stun:stun.l.google.com:19302"]},
+    {"urls": ["stun:stun1.l.google.com:19302"]},
+    {"urls": ["stun:stun2.l.google.com:19302"]},
+]
+
+# If Twilio credentials are provided, fetch TURN servers
+# This is crucial for cloud deployment where STUN is not enough
+if "TWILIO_ACCOUNT_SID" in os.environ and "TWILIO_AUTH_TOKEN" in os.environ:
+    try:
+        client = Client(os.environ["TWILIO_ACCOUNT_SID"], os.environ["TWILIO_AUTH_TOKEN"])
+        token = client.tokens.create()
+        ice_servers = token.ice_servers
+    except Exception as e:
+        print(f"Error fetching Twilio TURN servers: {e}")
+
+RTC_CONFIGURATION = RTCConfiguration({"iceServers": ice_servers})
 
 class VideoProcessor:
     def __init__(self, command_queue):
