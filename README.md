@@ -4,7 +4,8 @@
 [![OpenCV](https://img.shields.io/badge/OpenCV-5C3EE8?style=for-the-badge&logo=opencv&logoColor=white)](https://opencv.org/)
 [![MediaPipe](https://img.shields.io/badge/MediaPipe-00C853?style=for-the-badge&logo=google&logoColor=white)](https://developers.google.com/mediapipe)
 [![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
-[![Render](https://img.shields.io/badge/Render-46E3B7?style=for-the-badge&logo=render&logoColor=white)](https://render.com/)
+[![Render](https://img.shields.io/badge/Render-46E3B7?style=for-the-badge&logo=render&logoColor=white)](https://fundraw-chemlab.onrender.com/)
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Click_Here-FF5722?style=for-the-badge)](https://fundraw-chemlab.onrender.com/)
 
 **FunDraw_ChemLab** is a futuristic, touchless interactive application that turns your webcam into a canvas and a science lab. Using advanced Computer Vision and Hand Tracking, it allows users to draw in mid-air and simulate chemical reactions without touching a keyboard or mouse.
 
@@ -27,6 +28,36 @@
 - **Glassmorphism Design**: Sleek, semi-transparent dark-mode interface.
 - **Dual Support**: Run it as a desktop app (OpenCV) or a web app (Streamlit).
 - **Responsive Controls**: Sidebar controls for ease of use in web mode.
+
+---
+
+## 🏗️ System Architecture
+
+This application bridges the gap between **Real-time Computer Vision** and **Modern Web Technologies**.
+
+### High-Level Flow
+```mermaid
+graph LR
+    User[User Webcam] -->|WebRTC Stream| Server[Streamlit Server]
+    Server -->|Frame Processing| OpenCV[OpenCV & MediaPipe]
+    OpenCV -->|Hand Tracking| Logic[Game Logic / Physics]
+    Logic -->|Draw Canvas| Composite[Final Frame]
+    Composite -->|WebRTC Stream| User
+```
+
+### Tech Stack Breakdown
+1.  **Frontend (Streamlit & WebRTC)**
+    - Uses `streamlit-webrtc` to establish a low-latency video stream directly between the user's browser and the Python server.
+    - Handles UI events (buttons, sliders) and sends commands (clear, save, mode switch) via a thread-safe **Command Queue**.
+
+2.  **Core Processing (OpenCV & Mediapipe)**
+    - **Hand Tracking**: Google's MediaPipe Hands model detects 21 landmarks on each hand in real-time.
+    - **Gesture Engine**: Custom logic interprets specific landmark configurations (e.g., Index Up = Draw, Two Fingers = Select).
+    - **Graphics**: OpenCV draws lines, UI elements, and glassmorphic overlays onto the frame.
+
+3.  **Chemistry Engine**
+    - Simulates physics for pouring chemicals.
+    - Detects interactions (e.g., `Water + Acid = Heat`, `Base + Acid = Salt`).
 
 ---
 
