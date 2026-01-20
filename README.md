@@ -84,6 +84,7 @@ graph LR
 
 **Option 1: Web App (Recommended)**
 Run the application in your browser with a modern UI.
+Currently not functioning due to Hardware Requirements( Need good h/w in Deployment site). For now Try Locally " **Native App Option **"
 ```bash
 streamlit run app.py
 ```
@@ -141,3 +142,4 @@ This project is configured for **1-Click Deployment** on [Render](https://render
 ---
 
 **Built with ❤️ using MediaPipe & OpenCV**
+
